@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Report xmlns:tns="http://www.example.org/Report"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/Report Report.xsd ">
+	<tns:Students>
+		<tns:Student FullName="Full Program" E-mail="qwe-123@mail.ru"
+			Region="Ryazan" StartDate="2002-05-30T09:00:00" ContractSigned="true">
+			<tns:StudentCurriculum StudentCurriculumTitle="Full program">
+				<tns:StudentCourse StudentCourseTitle='Курс "Использование Visual SourceSafe"'
+					StudentCurriculumTitle="Full program">
+					<tns:StudentTask StudentTaskTitle="Mastering Visual SourceSafe"
+						TaskType="Theory" Mark="4">
+						<tns:StatusTheory Value="study completed"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Study of Java Coding Rules" Mark="1">
+						<tns:StatusTheory Value="during the study"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+				</tns:StudentCourse>
+				<tns:StudentCourse StudentCurriculumTitle="Full program"
+					StudentCourseTitle='Курс "Overview of Eclipse IDE"'>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Overview of Eclipse IDE" Mark="5">
+						<tns:StatusTheory Value="study completed"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+				</tns:StudentCourse>
+				<tns:StudentCourse StudentCurriculumTitle="Full program"
+					StudentCourseTitle='Курс "Язык Java - расширенные возможности"'>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Learning the Java Language advanced features ">
+						<tns:StatusTheory Value="study has not begun"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+					<tns:StudentTask TaskType="Practic"
+						StudentTaskTitle="Practical Task">
+						<tns:StatusPractic Value="practic has not begun"
+							TaskType="Practic" />
+					</tns:StudentTask>
+				</tns:StudentCourse>
+				<tns:StudentCourse StudentCurriculumTitle="Full program"
+					StudentCourseTitle='Курс "Язык XML"'>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Learning XML Language" Mark="4">
+						<tns:StatusTheory Value="study completed"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+					<tns:StudentTask TaskType="Practic"
+						StudentTaskTitle="Practical Task" Mark="4">
+						<tns:StatusPractic Value="practic has not begun"
+							TaskType="Practic" />
+					</tns:StudentTask>
+				</tns:StudentCourse>
+				<tns:StudentCourse StudentCurriculumTitle="Full program"
+					StudentCourseTitle='Курс "Основы языка Java"'>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Learning the Java Language Basics" Mark="4">
+						<tns:StatusTheory Value="study completed"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+					<tns:StudentTask TaskType="Practic"
+						StudentTaskTitle="Practical Task">
+						<tns:StatusPractic Value="practic has not begun"
+							TaskType="Practic" />
+					</tns:StudentTask>
+				</tns:StudentCourse>
+			</tns:StudentCurriculum>
+		</tns:Student>
+		<tns:Student FullName="Feder Zacev" ContractSigned="true"
+			E-mail="ertRt@ya.com" Region="Ryazan" StartDate="2002-05-30T09:00:00">
+			<tns:StudentCurriculum StudentCurriculumTitle="Full program">
+				<tns:StudentCourse StudentCourseTitle='Курс "Использование Visual SourceSafe"'
+					StudentCurriculumTitle="Full program">
+					<tns:StudentTask StudentTaskTitle="Mastering Visual SourceSafe"
+						TaskType="Theory" Mark="4">
+						<tns:StatusTheory Value="study completed"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Study of Java Coding Rules" Mark="1">
+						<tns:StatusTheory Value="during the study"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+				</tns:StudentCourse>
+				<tns:StudentCourse StudentCurriculumTitle="Full program"
+					StudentCourseTitle='Курс "Overview of Eclipse IDE"'>
+					<tns:StudentTask TaskType="Theory"
+						StudentTaskTitle="Overview of Eclipse IDE" Mark="5">
+						<tns:StatusTheory Value="study completed"
+							TaskType="Theory" />
+
+					</tns:StudentTask>
+				</tns:StudentCourse>
+				
+		<tns:Curriculum CurriculumTitle="Short program"
+			RevisionDate="2002-05-30T09:00:00" Author="Mary Rinova">
+			<tns:Course CourseTitle='Курс "Основы языка Java"'
+				CurriculumTitle="Short program" />
+			<tns:Course CourseTitle='Курс "Язык Java - расширенные возможности"'
+				CurriculumTitle="Short program"></tns:Course>
+		</tns:Curriculum>
+	</tns:Curriculums>
+	<tns:Course CourseTitle='Курс "Использование Visual SourceSafe"'
+		RevisionDate="2002-05-30T09:00:00" Author="Petr Volkov">
+		<tns:Task Duration="4" TaskTitle="Mastering Visual SourceSafe"
+			TaskType="Theory"/>
+		<tns:Task TaskType="Theory" Duration="10"
+			TaskTitle="Study of Java Coding Rules"/>
+	</tns:Course>
+	<tns:Course CourseTitle='Курс "Overview of Eclipse IDE"'
+		RevisionDate="2002-05-30T09:00:00" Author="Jily Jils">
+		<tns:Task TaskType="Theory" Duration="4"
+			TaskTitle="Overview of Eclipse IDE"/>
+	</tns:Course>
+	<tns:Course CourseTitle='Курс "Основы языка Java"' Author="Dmitri Stepanov"
+		RevisionDate="2002-05-30T09:00:00">
+		<tns:Task TaskType="Theory" Duration="5"
+			TaskTitle="Learning the Java Language Basics"/>
+		<tns:Task TaskType="Practic" Duration="5" TaskTitle="Practical Task"/>
+	</tns:Course>
+	<tns:Course CourseTitle='Курс "Язык Java - расширенные возможности"'
+		RevisionDate="2002-05-30T09:00:00" Author="Petr Vasin">
+		<tns:Task TaskType="Theory" Duration="17"
+			TaskTitle="Learning the Java Language advanced features "/>
+		<tns:Task TaskType="Practic" Duration="8" TaskTitle="Practical Task"/>
+	</tns:Course>
+	<tns:Course CourseTitle='Курс "Язык XML"' RevisionDate="2002-05-30T09:00:00"
+		Author="Kaly Kolotilina">
+		<tns:Task TaskType="Theory" Duration="8" TaskTitle="Learning XML Language"/>
+		<tns:Task TaskType="Practic" Duration="5" TaskTitle="Practical Task"/>
+
+	</tns:Course>
+</tns:Report>

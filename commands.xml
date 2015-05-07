@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Commands>
+    <Command name="validate" class="commands.impl.ValidateCommand" enable="true">
+        <XmlFile path="report.xml"/>
+        <Scheme path="report.xsd"/>
+    </Command>
+    <Command name="count" class="commands.impl.CountCommand" enable="true">
+        <XmlFile path="report.xml"/>
+        <Element name="tns:StudentCourse"/>
+    </Command>
+    <Command name="print" class="commands.impl.PrintCommand" enable="false">
+        <XmlFile path=""/>
+    </Command>
+    <Command name="search" class="commands.impl.SearchCommand" enable="true">
+        <XmlFile path=""></XmlFile>
+        <Element attribute="" value=""/>
+    </Command>
+</Commands>

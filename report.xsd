@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/Report"
+	xmlns:tns="http://www.example.org/Report" elementFormDefault="qualified">
+
+	<complexType name="StudentType">
+		<sequence>
+			<element name="StudentCurriculum" type="tns:StudentCurriculumType"
+				maxOccurs="1" minOccurs="1">
+				<!-- link  curriculum to Course in this curriculum in student -->
+				<key name='StudentCurriculumCourseTitleKey'>
+					<selector xpath='.' />
+					<field xpath='@StudentCurriculumTitle' />
+				</key>
+
+				<keyref name='StudentCurriculumCourseTitleKeyRef' refer='tns:StudentCurriculumCourseTitleKey'>
+					<selector xpath='tns:StudentCourse' />
+					<field xpath='@StudentCurriculumTitle' />
+
+				</keyref>
+				<!-- unique Course for student -->
+				<unique name="studentCourseID">
+					<selector xpath="tns:StudentCourse" />
+					<field xpath="@StudentCourseTitle" />
+				</unique>
+			</element>
+		</sequence>
+		<attribute name="FullName" type="tns:String70" use="required"></attribute>
+		<attribute name="Region" type="tns:String70"></attribute>
+		<attribute name="E-mail" type="tns:E-mailType"></attribute>
+		<attribute name="StartDate" type="dateTime"></attribute>
+		<attribute name="ContractSigned" type="boolean"></attribute>
+	</complexType>
+
+	<simpleType name="E-mailType">
+		<restriction base="string">
+			<whiteSpace value="collapse"></whiteSpace>
+			<minLength value="0"></minLength>
+			<maxLength value="70"></maxLength>
+			<pattern value="([0-9a-zA-Z_\-]{1,8}@([0-9a-zA-Z]{1,8}\.)+[a-zA-Z]{2,3})">
+			</pattern>
+		</restriction>
+	</simpleType>
+
+	<complexType name="TaskType">
+		<attribute name="TaskTitle" type="tns:String70" use="required">
+		</attribute>
+		<attribute name="Duration" type="tns:String70" use="required">
+		</attribute>
+		<attribute name="TaskType" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="Theory"></enumeration>
+					<enumeration value="Practic"></enumeration>
+				</restriction>
+			</simpleType>
+		</attribute>
+
+		<attribute name="CourseTitle" type="tns:String70"></attribute>
+	</complexType>
+
+	<complexType name="CourseType">
+		<sequence>
+			<element name="Task" type="tns:TaskType" maxOccurs="unbounded"
+				minOccurs="1">
+				<!-- unique task name -->
+				<unique name="taskID">
+					<selector xpath="tns:Course/tns:Task" />
+					<field xpath="@TaskTitle" />
+				</unique>
+			</element>
+		</sequence>
+		<attribute name="CourseTitle" type="tns:String70" use="required"></attribute>
+		<attribute name="Author" type="tns:String70"></attribute>
+		<attribute name="RevisionDate" type="dateTime"></attribute>
+
+	</complexType>
+
+	<complexType name="CurriculumType">
+		<sequence>
+			<element name="Course" type="tns:CurriculumCourseType"
+				maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+		<attribute name="CurriculumTitle" type="tns:String70" use="required">
+		</attribute>
+		<attribute name="Author" type="tns:String70"></attribute>
+		<attribute name="RevisionDate" type="dateTime"></attribute>
+	</complexType>
+
+	<element name="Report" type="tns:StudentReportType">
+		<!-- Key from curriculum to curriculum of student -->
+		<key name='StudentCurriculumKey'>
+			<selector xpath='tns:Curriculums/tns:Curriculum' />
+			<field xpath='@CurriculumTitle' />
+		</key>
+
+		<keyref name='StudentCurriculumKeyRef' refer='tns:StudentCurriculumKey'>
+			<selector xpath='tns:Students/tns:Student/tns:StudentCurriculum' />
+			<field xpath='@StudentCurriculumTitle' />
+		</keyref>
+
+		<!-- Key from Course to Courses in student curriculum -->
+		<key name='StudentCourseKey'>
+			<selector xpath='tns:Course' />
+			<field xpath='@CourseTitle' />
+		</key>
+
+		<keyref name='StudentCourseKeyRef' refer='tns:StudentCourseKey'>
+			<selector
+				xpath='tns:Students/tns:Student/tns:StudentCurriculum/tns:StudentCourse' />
+			<field xpath='@StudentCourseTitle' />
+		</keyref>
+		<!--
+			Key to Courses of appropriate training programs planned for the
+			student
+		-->
+		<key name='StudentCurriculumCourseKey'>
+			<selector xpath='tns:Curriculums/tns:Curriculum/tns:Course' />
+			<field xpath='@CurriculumTitle' />
+			<field xpath='@CourseTitle' />
+		</key>
+
+		<keyref name='StudentCurriculumCourseKeyRef' refer='tns:StudentCurriculumCourseKey'>
+			<selector
+				xpath='tns:Students/tns:Student/tns:StudentCurriculum/tns:StudentCourse' />
+			<field xpath='@StudentCurriculumTitle' />
+			<field xpath='@StudentCourseTitle' />
+		</keyref>
+		<!--
+			Key to Tasks of appropriate training programs planned for the student
+		-->
+		<key name='StudentCourseTaskKey'>
+			<selector xpath='tns:Course/tns:Task' />
+			<field xpath='@CourseTitle' />
+			<field xpath='@TaskTitle' />
+		</key>
+
+		<keyref name='StudentCourseTaskKeyRef' refer='tns:StudentCourseTaskKey'>
+			<selector
+				xpath='tns:Students/tns:Student/tns:StudentCurriculum/tns:StudentCourse/tns:StudentTask' />
+			<field xpath='@StudentCourseTitle' />
+			<field xpath='@StudentTaskTitle' />
+		</keyref>
+	</element>
+
+	<complexType name="StudentReportType">
+
+		<sequence>
+			<element name="Students" type="tns:StudentsType" maxOccurs="1"
+				minOccurs="1">
+				<!-- unique student full name -->
+				<unique name="studentID">
+					<selector xpath="tns:Student" />
+					<field xpath="@FullName" />
+				</unique>
+			</element>
+			<element name="Curriculums" type="tns:CurriculumsType"
+				maxOccurs="1" minOccurs="1">
+				<!-- unique curriculum -->
+				<unique name="curriculumID">
+					<selector xpath="tns:Curriculum" />
+					<field xpath="@CurriculumTitle" />
+				</unique>
+			</element>
+			<element name="Course" type="tns:CourseType" maxOccurs="unbounded"
+				minOccurs="1">
+				<!-- unique Course -->
+				<unique name="CourseID">
+					<selector xpath="." />
+					<field xpath="@CourseTitle" />
+				</unique>
+				<!-- link curriculum to Course in this curriculum  -->
+				<key name='CourseTitleInTaskKey'>
+					<selector xpath='tns:Course' />
+					<field xpath='@CourseTitle' />
+				</key>
+				<keyref name='CourseTitleInTaskKeyRef' refer='tns:CourseTitleInTaskKey'>
+					<selector xpath='tns:Course/tns:Task' />
+					<field xpath='@CourseTitle' />
+				</keyref>
+			</element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="String70">
+		<restriction base="string">
+			<minLength value="0"></minLength>
+			<maxLength value="70"></maxLength>
+		</restriction>
+	</simpleType>
+
+
+
+	<complexType name="StudentCourseType">
+		<sequence>
+			<element name="StudentTask" type="tns:StudentTaskType"
+				maxOccurs="unbounded" minOccurs="1">
+				<!-- key status task to task type -->
+				<key name='TaskStatusKey'>
+					<selector xpath='.' />
+					<field xpath='@TaskType' />
+				</key>
+
+				<keyref name='TaskStatusPracticKeyRef' refer='tns:TaskStatusKey'>
+					<selector xpath='tns:StatusPractic' />
+					<field xpath='@TaskType' />
+				</keyref>
+
+				<keyref name='TaskStatusTheoryKeyRef' refer='tns:TaskStatusKey'>
+					<selector xpath='tns:StatusTheory' />
+					<field xpath='@TaskType' />
+				</keyref>
+
+			</element>
+		</sequence>
+		<attribute name="StudentCourseTitle" type="tns:String70"
+			use="required"></attribute>
+		<attribute name="StudentCurriculumTitle" type="tns:String70"
+			use="required"></attribute>
+	</complexType>
+
+	<complexType name="StudentCurriculumType">
+		<sequence>
+			<element name="StudentCourse" type="tns:StudentCourseType"
+				maxOccurs="unbounded" minOccurs="1">
+
+				<!-- link  course to task in this course in student -->
+				<key name='StudentCourseTaskTitleKey'>
+					<selector xpath='.' />
+					<field xpath='@StudentCourseTitle' />
+				</key>
+
+				<keyref name='StudentCourseTaskTitleKeyRef' refer='tns:StudentCourseTaskTitleKey'>
+					<selector xpath='tns:StudentTask' />
+					<field xpath='@StudentCourseTitle' />
+				</keyref>
+			</element>
+		</sequence>
+		<attribute name="StudentCurriculumTitle" type="tns:String70"
+			use="required"></attribute>
+	</complexType>
+
+	<complexType name="StudentTaskType">
+		<choice>
+			<element name="StatusPractic" type="tns:PracticType">
+
+			</element>
+			<element name="StatusTheory" type="tns:TheoryType"></element>
+		</choice>
+		<attribute name="Mark" type="tns:MarkType"></attribute>
+		<attribute name="StudentCourseTitle" type="tns:String70"></attribute>
+		<attribute name="TaskType" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="Theory"></enumeration>
+					<enumeration value="Practic"></enumeration>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="StudentTaskTitle" type="tns:String70" use="required">
+		</attribute>
+	</complexType>
+
+	<simpleType name="MarkType">
+		<restriction base="int">
+			<enumeration value="1"></enumeration>
+			<enumeration value="2"></enumeration>
+			<enumeration value="3"></enumeration>
+			<enumeration value="4"></enumeration>
+			<enumeration value="5"></enumeration>
+		</restriction>
+	</simpleType>
+
+
+	<complexType name="StudentsType">
+		<sequence>
+
+			<element name="Student" type="tns:StudentType" maxOccurs="unbounded"
+				minOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="CurriculumsType">
+		<sequence>
+
+			<element name="Curriculum" type="tns:CurriculumType"
+				maxOccurs="unbounded" minOccurs="1">
+				<!-- link curriculum to Course in this curriculum  -->
+				<key name='CurriculumTitleInCourseKey'>
+					<selector xpath='.' />
+					<field xpath='@CurriculumTitle' />
+				</key>
+
+				<keyref name='CurriculumTitleInCourseKeyRef' refer='tns:CurriculumTitleInCourseKey'>
+					<selector xpath='tns:Course' />
+					<field xpath='@CurriculumTitle' />
+
+				</keyref>
+
+			</element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="CurriculumCourseType">
+		<attribute name="CourseTitle" type="tns:String70" use="required"></attribute>
+		<attribute name="CurriculumTitle" type="tns:String70" use="required"></attribute>
+	</complexType>
+
+	<complexType name="CourseTaskType">
+		<attribute name="CourseTitle" type="tns:String70" use="required"></attribute>
+		<attribute name="TaskTitle" type="tns:String70" use="required"></attribute>
+	</complexType>
+
+	<complexType name="PracticType">
+		<attribute name="Value" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="practic has not begun"></enumeration>
+					<enumeration value="practic in progress"></enumeration>
+					<enumeration value="practic is checking"></enumeration>
+					<enumeration value="accepted the job"></enumeration>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="TaskType" use="required" fixed="Practic"
+			type="string">
+		</attribute>
+	</complexType>
+
+	<complexType name="TheoryType">
+		<attribute name="Value" use="required">
+			<simpleType>
+				<restriction base="string">
+					<enumeration value="study has not begun"></enumeration>
+					<enumeration value="during the study"></enumeration>
+					<enumeration value="study completed"></enumeration>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="TaskType" use="required" fixed="Theory"
+			type="string">
+		</attribute>
+	</complexType>
+</schema>
